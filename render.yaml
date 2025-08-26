@@ -2,6 +2,6 @@ services:
   - type: web
     name: bybit-bot
     env: python
-    buildCommand: "pip install -r requirements.txt"
-    startCommand: "gunicorn app:app"
     plan: free
+    buildCommand: ""
+    startCommand: "python app.py"
