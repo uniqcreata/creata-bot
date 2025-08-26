@@ -3,3 +3,4 @@ requests
 websockets
 bybit
 python-dotenv
+gunicorn
