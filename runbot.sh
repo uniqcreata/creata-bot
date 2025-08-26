@@ -1,4 +1,4 @@
 #!/bin/bash
-cd ~/Desktop/my_bot
+cd ~/Desktop/creata-bot
 source venv/bin/activate
 python app.py
