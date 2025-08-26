@@ -1,2 +1,5 @@
 flask
-ollama
+requests
+websockets
+bybit
+python-dotenv
