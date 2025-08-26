@@ -3,6 +3,11 @@ services:
     name: creata-bot
     env: python
     plan: free
+    region: oregon
     buildCommand: pip install -r requirements.txt
     startCommand: python app.py
-    branch: main
+    envVars:
+      - key: BYBIT_API_KEY
+        value: "TuEDsVyCegQYyrBUcA"
+      - key: BYBIT_API_SECRET
+        value: "2qwYitpYLJoipThZf3v3VmDjPLDiL5rxCNU8"
