@@ -1,8 +1,23 @@
-# Python
-__pycache__/
-*.pyc
-.venv/
+# Virtual environment
 venv/
-
-# Local env file
 .env
+*.env
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Logs
+*.log
+
+# IDE / Editor files
+.vscode/
+.idea/
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Render build files
+*.sqlite3
