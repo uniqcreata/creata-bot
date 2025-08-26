@@ -2,6 +2,10 @@ services:
   - type: web
     name: bybit-bot
     env: python
+    region: oregon   # you can change to frankfurt, singapore, etc.
     plan: free
-    buildCommand: ""
+    buildCommand: "pip install -r requirements.txt"
     startCommand: "python app.py"
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.10
