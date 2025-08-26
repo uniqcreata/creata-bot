@@ -1,37 +1,24 @@
-from flask import Flask, render_template, request, jsonify
-import requests
+import os
+from dotenv import load_dotenv
+from flask import Flask, jsonify
+
+# Load local .env when running on your PC (Render will ignore .env and use dashboard vars)
+load_dotenv()
 
 app = Flask(__name__)
 
-OLLAMA_API = "http://localhost:11434/api/generate"
-MODEL = "llama3"  # change if you downloaded another model
+# Read secrets from environment
+BYBIT_API_KEY = os.getenv("BYBIT_API_KEY")
+BYBIT_API_SECRET = os.getenv("BYBIT_API_SECRET")
 
-@app.route("/")
-def index():
-    return render_template("index.html")
+# Optional (only if you actually use Telegram in this app)
+TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
+TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
 
-@app.route("/chat", methods=["POST"])
-def chat():
-    user_input = request.json["message"]
+# Quick sanity check (helps you catch missing vars locally)
+if not BYBIT_API_KEY or not BYBIT_API_SECRET:
+    app.logger.warning("BYBIT_API_KEY or BYBIT_API_SECRET is not set.")
 
-    # Send request to Ollama
-    response = requests.post(OLLAMA_API, json={
-        "model": MODEL,
-        "prompt": user_input
-    }, stream=True)
-
-    bot_reply = ""
-    for line in response.iter_lines():
-        if line:
-            try:
-                data = line.decode("utf-8")
-                if '"response":"' in data:
-                    text = data.split('"response":"')[1].split('"')[0]
-                    bot_reply += text
-            except:
-                pass
-
-    return jsonify({"reply": bot_reply})
-
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=True)
+@app.get("/health")
+def health():
+    return jsonify(status="ok")
