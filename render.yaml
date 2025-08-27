@@ -1,3 +1,4 @@
+
 services:
   - type: web
     name: creata-bot
@@ -8,6 +9,6 @@ services:
     startCommand: python app.py
     envVars:
       - key: BYBIT_API_KEY
-        value: "TuEDsVyCegQYyrBUcA"
+        value: "hYNwQkUjua2sT2qOj4"
       - key: BYBIT_API_SECRET
-        value: "2qwYitpYLJoipThZf3v3VmDjPLDiL5rxCNU8"
+        value: "MwpBsYCHk1MNTtiswQv01zIvCc6req9Jf2fe"
