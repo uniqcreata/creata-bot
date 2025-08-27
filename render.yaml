@@ -1,14 +1,14 @@
-
 services:
   - type: web
     name: creata-bot
     env: python
     plan: free
-    region: Frankfurk
-    buildCommand: pip install -r requirements.txt
-    startCommand: python app.py
+    region: frankfurt
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "python app.py"
     envVars:
       - key: BYBIT_API_KEY
-        value: "hYNwQkUjua2sT2qOj4"
+        sync: false
       - key: BYBIT_API_SECRET
-        value: "MwpBsYCHk1MNTtiswQv01zIvCc6req9Jf2fe"
+        sync: false
+
