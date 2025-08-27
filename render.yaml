@@ -4,7 +4,7 @@ services:
     name: creata-bot
     env: python
     plan: free
-    region: oregon
+    region: Frankfurk
     buildCommand: pip install -r requirements.txt
     startCommand: python app.py
     envVars:
