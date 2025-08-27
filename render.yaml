@@ -1,14 +1,18 @@
 services:
   - type: web
     name: creata-bot
-    env: python
+    runtime: python
+    repo: https://github.com/uniqcreata/https-github.com-uniqcreata-bybit_bot
+    branch: master
     plan: free
     region: frankfurt
-    buildCommand: "pip install -r requirements.txt"
-    startCommand: "python app.py"
+    buildCommand: pip install -r requirements.txt
+    startCommand: python app.py
     envVars:
       - key: BYBIT_API_KEY
         sync: false
       - key: BYBIT_API_SECRET
         sync: false
-
+      - key: PORT
+        value: 5000
+version: "1"

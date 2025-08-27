@@ -1,24 +1,19 @@
-import os
-from dotenv import load_dotenv
 from flask import Flask, jsonify
-
-# Load local .env when running on your PC (Render will ignore .env and use dashboard vars)
-load_dotenv()
 
 app = Flask(__name__)
 
-# Read secrets from environment
-BYBIT_API_KEY = os.getenv("BYBIT_API_KEY")
-BYBIT_API_SECRET = os.getenv("BYBIT_API_SECRET")
+@app.route("/")
+def home():
+    return "🚀 Creata-Bot is live!"
 
-# Optional (only if you actually use Telegram in this app)
-TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
-TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
+@app.route("/trade-advice")
+def trade_advice():
+    # For now, just return simple JSON advice (later we’ll connect real forex/crypto APIs)
+    return jsonify({
+        "market": "BTC/USDT",
+        "advice": "Consider buying if price drops near 26,500, take profit around 27,200",
+        "note": "This is dummy advice – real logic coming soon."
+    })
 
-# Quick sanity check (helps you catch missing vars locally)
-if not BYBIT_API_KEY or not BYBIT_API_SECRET:
-    app.logger.warning("BYBIT_API_KEY or BYBIT_API_SECRET is not set.")
-
-@app.get("/health")
-def health():
-    return jsonify(status="ok")
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000)
