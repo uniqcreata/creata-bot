@@ -3,7 +3,7 @@ services:
     name: creata-bot
     runtime: python
     repo: https://github.com/uniqcreata/https-github.com-uniqcreata-bybit_bot
-    branch: master
+    branch: main
     plan: free
     region: frankfurt
     buildCommand: pip install -r requirements.txt
