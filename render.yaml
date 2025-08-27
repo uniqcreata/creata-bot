@@ -1,18 +1,22 @@
+# Exported from Render - Python Flask bot setup
+
 services:
   - type: web
     name: creata-bot
     runtime: python
-    repo: https://github.com/uniqcreata/https-github.com-uniqcreata-bybit_bot
+    repo: https://github.com/uniqcreata/creata-bot
     branch: main
     plan: free
     region: frankfurt
     buildCommand: pip install -r requirements.txt
-    startCommand: python app.py
+    startCommand: gunicorn app:app
+
     envVars:
       - key: BYBIT_API_KEY
         sync: false
       - key: BYBIT_API_SECRET
         sync: false
-      - key: PORT
-        value: 5000
+      - key: TELEGRAM_TOKEN
+        sync: false
+
 version: "1"
