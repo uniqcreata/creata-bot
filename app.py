@@ -1,50 +1,51 @@
-from flask import Flask, request, jsonify
+from flask import Flask, jsonify
 import os
 import requests
 
 app = Flask(__name__)
 
-# ✅ Load API keys from Render environment
-BYBIT_API_KEY = os.getenv("BYBIT_API_KEY")
-BYBIT_API_SECRET = os.getenv("BYBIT_API_SECRET")
-ALPHA_VANTAGE_KEY = os.getenv("ALPHA_VANTAGE_KEY")  # for forex
-
+# Home route
 @app.route("/")
 def home():
-    return "🚀 Creata-Bot is Live! Ask me for crypto & forex signals."
+    return jsonify({"message": "🚀 Creata-Bot is live with Bybit!"})
 
-# ==============================
-# 🔹 Price Endpoint
-# ==============================
-@app.route("/price", methods=["GET"])
-def get_price():
-    pair = request.args.get("pair", "BTCUSDT")
-
-    # If it's forex like EURUSD, use Alpha Vantage
-    if len(pair) == 6 and pair.isalpha():
-        url = f"https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency={pair[:3]}&to_currency={pair[3:]}&apikey={ALPHA_VANTAGE_KEY}"
-        r = requests.get(url).json()
-        try:
-            price = r["Realtime Currency Exchange Rate"]["5. Exchange Rate"]
-            return jsonify({"pair": pair, "price": price})
-        except:
-            return jsonify({"error": "Forex data not available"}), 400
-
-    # Otherwise treat it as crypto from Bybit
-    url = f"https://api.bybit.com/v5/market/tickers?category=spot&symbol={pair}"
-    r = requests.get(url).json()
-    try:
-        price = r["result"]["list"][0]["lastPrice"]
-        return jsonify({"pair": pair, "price": price})
-    except:
-        return jsonify({"error": "Crypto data not available"}), 400
-
-# ==============================
-# Run
-# ==============================
-if __name__ == "__main__":
-
-    app.run(host="0.0.0.0", port=5000)
+# Ping route for Render health check
 @app.route("/ping")
 def ping():
-    return {"status": "ok", "message": "Creata-Bot is alive 🚀"}
+    return jsonify({"status": "ok", "message": "pong"})
+
+# Signal route (basic version)
+@app.route("/signal")
+def signal():
+    try:
+        # Example: Fetch BTCUSDT price from Bybit
+        response = requests.get(
+            "https://api.bybit.com/v2/public/tickers?symbol=BTCUSDT"
+        )
+        data = response.json()
+
+        if "result" in data and len(data["result"]) > 0:
+            price = float(data["result"][0]["last_price"])
+
+            # Simple strategy example: decide buy/sell/hold
+            if price < 60000:
+                action = "BUY"
+            elif price > 70000:
+                action = "SELL"
+            else:
+                action = "HOLD"
+
+            return jsonify({
+                "symbol": "BTCUSDT",
+                "price": price,
+                "signal": action
+            })
+
+        return jsonify({"error": "No data from Bybit"}), 500
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
