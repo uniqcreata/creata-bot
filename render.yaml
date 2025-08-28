@@ -1,4 +1,4 @@
-# Exported from Render - Python Flask bot setup
+# Exported from Render
 
 services:
   - type: web
@@ -7,16 +7,20 @@ services:
     repo: https://github.com/uniqcreata/creata-bot
     branch: main
     plan: free
-    region: frankfurt
     buildCommand: pip install -r requirements.txt
     startCommand: gunicorn app:app
-
     envVars:
       - key: BYBIT_API_KEY
         sync: false
       - key: BYBIT_API_SECRET
         sync: false
-      - key: TELEGRAM_TOKEN
+      - key: BINANCE_API_KEY
         sync: false
+      - key: BINANCE_API_SECRET
+        sync: false
+      - key: ALPHA_VANTAGE_KEY
+        sync: false
+    region: frankfurt
+    autoDeploy: true
 
 version: "1"
